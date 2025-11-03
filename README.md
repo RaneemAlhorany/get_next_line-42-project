@@ -757,87 +757,105 @@ get_next_line : to combine all the functions and return the line by line
                 ~ use * when you want to work with the address of a single variable (pointer)
                 ~ use ** when you want to work with the address of a pointer (pointer to pointer)              
    
+3) update_chunk
 
+       information:
+            this method is part of the get_next_line project
+   
+       prototype of the method:
+            char *update_chunk(char **chunk);
+   
+       description:
+           # this method is used to update the chunk variable after extracting a line
+           # it removes the part of the chunk that was already returned by extract_line,
+                   keeping only the remaining unread data after the first newline ('\n')
+           # it handles memory management safely by freeing the old chunk 
+             and allocating a new one for the remaining data
+   
+       parameters:
+           char **chunk :
+                   double pointer to the chunk variable that holds the accumulated data
+                   read from the file descriptor
+   
+       return:
+           # array of char (char *) 
+               returns a newly allocated string containing the remaining unread data 
+               after the extracted line.
+           # returns NULL if:
+               - there is no more data after the newline,
+               - memory allocation fails,
+               - or the chunk itself is invalid or empty
+   
+       how to implement it:
+   
+           check if the chunk is valid (not NULL and not empty)
+                 if (!chunk || !*chunk || !**chunk)
+                     return (NULL);
+   
+           find the position of the first newline character ('\n') in the chunk
+               char *data_after_nl = ft_strchr(*chunk, '\n');
+   
+           if there is a newline, move the pointer one step forward to start after it
+               if (data_after_nl)
+                   data_after_nl++; 
+               else
+                   return (free_chunk(chunk)); // no newline found → free and return NULL
+   
+           if there’s no remaining data after the newline, free the chunk and return NULL
+               if (!*data_after_nl)
+                   return (free_chunk(chunk));
+   
+           calculate the length of the remaining data after the newline
+               size_t len = ft_strlen(data_after_nl);
+   
+           allocate memory for the new chunk that will store the remaining data
+               char *new_chunk = malloc(len + 1);
+   
+           if malloc fails, free the old chunk and return NULL
+               if (!new_chunk)
+                   return (free_chunk(chunk));
+   
+           copy the remaining data (after the newline) into the new chunk
+               ft_memcpy(new_chunk, data_after_nl, len);
+   
+           add the null terminator at the end of the new chunk
+               new_chunk[len] = '\0';
+   
+           free the old chunk and reset its pointer to NULL to avoid memory leaks
+               free(*chunk);
+               *chunk = NULL;
+   
+           return the newly allocated chunk that contains only the remaining data
+               return (new_chunk);
+   
+       notes:
+           # this method is responsible for memory management between lines
+           # it ensures that no memory leaks occur by freeing the old chunk every time
+           # it must be called after extract_line to prepare the chunk for the next read
+           # always check for NULL return before using the updated chunk to avoid crashes
+           # ft_memcpy (from libft (update version)) is used for safe byte-level copying
+   
+       the difference between without star, * and ** and when to use it :
+   
+           without star
+               # is a normal variable that holds a value directly
+               # example: char c = 'A'; — c holds the value itself
+   
+           * (single asterisk)
+               # is used to declare a pointer that stores the memory address of a variable.
+               # example: char *ptr = &c; — ptr holds the address of c
+   
+           ** (double asterisk)
+               # is used to declare a pointer to another pointer.
+               # example: char **ptr_to_ptr = &ptr; — ptr_to_ptr holds the address of ptr
+   
+           when to use it:
+               ~ use no star for direct value access.
+               ~ use * when you need to access or modify data indirectly via memory address.
+               ~ use ** when you need to modify the pointer itself inside a function.
+   
 
   ///////////////////////// complete bellow  (04 +  02 header + 05 + 06)//////////////////////////////
-
-
-
-//! 3) update_chunk
-/*
-    ^ information:
-        % this method is part of the get_next_line project
-    ^ prototype of the method:
-        $ char *update_chunk(char **chunk);
-    ^ description:
-        ~ this method is used to update the chunk variable after extracting a line.
-        ~ it removes the part of the chunk that was already returned by extract_line,
-                keeping only the remaining unread data after the first newline ('\n').
-        ~ it handles memory management safely by freeing the old chunk 
-          and allocating a new one for the remaining data.
-    ^ parameters:
-        1) char **chunk :
-                double pointer to the chunk variable that holds the accumulated data
-                read from the file descriptor
-    ^ return:
-        ? array of char (char *) :
-            returns a newly allocated string containing the remaining unread data 
-            after the extracted line.
-        ? returns NULL if:
-            - there is no more data after the newline,
-            - memory allocation fails,
-            - or the chunk itself is invalid or empty.
-    ^ how to implement it:
-        # check if the chunk is valid (not NULL and not empty)
-            if (!chunk || !*chunk || !**chunk)
-                return (NULL);
-        # find the position of the first newline character ('\n') in the chunk
-            char *data_after_nl = ft_strchr(*chunk, '\n');
-        # if there is a newline, move the pointer one step forward to start after it
-            if (data_after_nl)
-                data_after_nl++; 
-            else
-                return (free_chunk(chunk)); // no newline found → free and return NULL
-        # if there’s no remaining data after the newline, free the chunk and return NULL
-            if (!*data_after_nl)
-                return (free_chunk(chunk));
-        # calculate the length of the remaining data after the newline
-            size_t len = ft_strlen(data_after_nl);
-        # allocate memory for the new chunk that will store the remaining data
-            char *new_chunk = malloc(len + 1);
-        # if malloc fails, free the old chunk and return NULL
-            if (!new_chunk)
-                return (free_chunk(chunk));
-        # copy the remaining data (after the newline) into the new chunk
-            ft_memcpy(new_chunk, data_after_nl, len);
-        # add the null terminator at the end of the new chunk
-            new_chunk[len] = '\0';
-        # free the old chunk and reset its pointer to NULL to avoid memory leaks
-            free(*chunk);
-            *chunk = NULL;
-        # return the newly allocated chunk that contains only the remaining data
-            return (new_chunk);
-    ^ notes:
-        ! this method is responsible for memory management between lines
-        ! it ensures that no memory leaks occur by freeing the old chunk every time
-        ! it must be called after extract_line to prepare the chunk for the next read
-        ! always check for NULL return before using the updated chunk to avoid crashes
-        ! ft_memcpy (from libft (update version)) is used for safe byte-level copying
-    ^ the difference between without star, * and ** and when to use it :
-        ! without star
-            ~ is a normal variable that holds a value directly.
-            $ example: char c = 'A'; — c holds the value itself.
-        ! * (single asterisk)
-            ~ is used to declare a pointer that stores the memory address of a variable.
-            $ example: char *ptr = &c; — ptr holds the address of c.
-        ! ** (double asterisk)
-            ~ is used to declare a pointer to another pointer.
-            $ example: char **ptr_to_ptr = &ptr; — ptr_to_ptr holds the address of ptr.
-        ! when to use it:
-            ~ use no star for direct value access.
-            ~ use * when you need to access or modify data indirectly via memory address.
-            ~ use ** when you need to modify the pointer itself inside a function.
-*/
 
 //! 4) read_and_store
 /*
