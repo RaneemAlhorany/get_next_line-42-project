@@ -857,86 +857,105 @@ get_next_line : to combine all the functions and return the line by line
 
   ///////////////////////// complete bellow  (04 +  02 header + 05 + 06)//////////////////////////////
 
-//! 4) read_and_store
-/*
-    ^ information:
-        % this method is part of the get_next_line project
-    ^ prototype of the method:
-        $ int read_and_store(char **chunk, int fd, char *buffer);
-    ^ description:
-        ~ this method reads data from the file descriptor (fd) into the buffer,
-                and appends the read content to the existing chunk until a newline ('\n')
-                is found or the end of the file is reached.
-        ~ it dynamically expands the chunk to accumulate all data read so far
-                while ensuring no memory leaks occur.
-        ~ it stops reading as soon as a newline is detected inside the chunk.
-    ^ parameters:
-        1) char **chunk :
-            double pointer to the variable that stores all accumulated data read from the file descriptor.
-        2) int fd :
-            the file descriptor from which the data is being read.
-        3) char *buffer :
-            temporary buffer used for each read operation (with size BUFFER_SIZE + 1). +1 for null character
-    ^ return:
-        ? returns a positive value (true) if data has been successfully read and stored.
-        ? returns 0 if the end of the file is reached without new data
-        ? returns -1 in case of an error (allocation failure or read error).
-    ^ how to implement it:
-        # decleration the following cariables:
-            char *temp;
-        # read data from the file descriptor into the buffer for first time 
-            ssize_t bytes = read(fd, buffer, BUFFER_SIZE);
-                ~ fd          : file descriptor
-                ~ buffer      : temporary buffer used for each read operatio
-                ~ BUFFER_SIZE : specifies the maximum number of bytes to read at once
-            The result of read(fd, buffer, BUFFER_SIZE) is stored in 'bytes', 
-                which indicates how many bytes were actually read.
-        # loop while bytes read are greater than 0 (mean there is data read from the file)
-            while (bytes > 0)
-            {
-                % terminate the buffer with '\0' to treat it as a string
-                    buffer[bytes] = '\0';
-                    $ end and close the string after read from the file
-                % concatenate the buffer content to the existing chunk
-                    temp = ft_strjoin(*chunk, buffer);
-                    ? used to save the data that is inside the chunk then add new value from the buffer to it 
-                        ? (take new copy form old and new and combine it)
-                % if ft_strjoin fails (malloc error), free buffer and return -1
-                    if (!temp)
-                    {
-                        free(buffer);
-                        return (-1);
-                    }
-                    ? thats mean there are something wrong happened 
-                % free the old chunk and replace it with the new concatenated one
-                    free(*chunk);
-                    *chunk = temp;
-                    ? when the error dosent oceread, it will follow to implemet the next instructions
-                    ?  so we need to free the previous value then store new value inside the chunk
-                % if a newline exists inside the chunk, stop reading and go out from the loop
-                    if (ft_strchr(*chunk, '\n'))
-                        break;
-                 %continue reading next chunk of data then check in the loop there is data or not
-                    bytes = read(fd, buffer, BUFFER_SIZE);
-            }
-        # after reading, free the buffer
-            free(buffer); 
-        # if a read error occurred (bytes < 0), return -1
-            if (bytes < 0)
-                return (-1);
-        # otherwise, return whether we have data (1) or not (0)
-            return (bytes > 0 && (*chunk && **chunk));
-            bytes > 0: Ensures that the number of bytes is greater than zero.
-                ~ *chunk: Checks that the pointer chunk is not NULL.
-                ~ **chunk: Checks that the data pointed to by chunk is not NULL or zero.
-                % All three conditions must be true for the function to return 1, 
-                    % indicating that valid data exists. If any condition is false, it returns 
-    ^ notes:
-        ! this method ensures memory safety by freeing buffer after usage.
-        ! it depends on ft_strjoin and ft_strchr from libft (new vserion)
-        ! it updates the chunk in place by allocating a new combined string and freeing the old one.
-        ! reading stops as soon as a newline character is found, optimizing performance.
-*/
+4) read_and_store
+   
+       information:
+           this method is part of the get_next_line project
+   
+       prototype of the method:
+           int read_and_store(char **chunk, int fd, char *buffer);
+   
+       description:
+           # this method reads data from the file descriptor (fd) into the buffer,
+                   and appends the read content to the existing chunk until a newline ('\n')
+                   is found or the end of the file is reached
+           # it dynamically expands the chunk to accumulate all data read so far
+                   while ensuring no memory leaks occur
+           # it stops reading as soon as a newline is detected inside the chunk
+   
+       parameters:
+           1) char **chunk :
+               double pointer to the variable that stores all accumulated data read from the file descriptor
+           2) int fd :
+               the file descriptor from which the data is being read
+           3) char *buffer :
+               temporary buffer used for each read operation (with size BUFFER_SIZE + 1). +1 for null character
+   
+       return:
+           # returns a positive value (true) if data has been successfully read and stored.
+           # returns 0 if the end of the file is reached without new data
+           # returns -1 in case of an error (allocation failure or read error)
+   
+       how to implement it:
+   
+           # decleration the following cariables:
+               char *temp;
+   
+           # read data from the file descriptor into the buffer for first time 
+               ssize_t bytes = read(fd, buffer, BUFFER_SIZE);
+   
+                   ~ fd          : file descriptor
+                   ~ buffer      : temporary buffer used for each read operatio
+                   ~ BUFFER_SIZE : specifies the maximum number of bytes to read at once
+               The result of read(fd, buffer, BUFFER_SIZE) is stored in 'bytes', 
+                   which indicates how many bytes were actually read.
+   
+           # loop while bytes read are greater than 0 (mean there is data read from the file)
+               while (bytes > 0)
+               {
+   
+                   # terminate the buffer with '\0' to treat it as a string
+                       buffer[bytes] = '\0';
+                   # end and close the string after read from the file
+   
+                   # concatenate the buffer content to the existing chunk
+                       temp = ft_strjoin(*chunk, buffer);
+                   # used to save the data that is inside the chunk then add new value from the buffer to it 
+                   # (take new copy form old and new and combine it)
+   
+                   # if ft_strjoin fails (malloc error), free buffer and return -1
+                       if (!temp)
+                       {
+                           free(buffer);
+                           return (-1);
+                       }
+                  # thats mean there are something wrong happened
+   
+                   # free the old chunk and replace it with the new concatenated one
+                       free(*chunk);
+                       *chunk = temp;
+                  # when the error dosent oceread, it will follow to implemet the next instructions
+                  #  so we need to free the previous value then store new value inside the chunk
+   
+                  # if a newline exists inside the chunk, stop reading and go out from the loop
+                       if (ft_strchr(*chunk, '\n'))
+                           break;
+   
+                  # continue reading next chunk of data then check in the loop there is data or not
+                       bytes = read(fd, buffer, BUFFER_SIZE);
+               }
+   
+           # after reading, free the buffer
+               free(buffer);
+   
+           # if a read error occurred (bytes < 0), return -1
+               if (bytes < 0)
+                   return (-1);
+   
+           # otherwise, return whether we have data (1) or not (0)
+               return (bytes > 0 && (*chunk && **chunk));
+          # note : 
+               bytes > 0: Ensures that the number of bytes is greater than zero
+                   ~ *chunk: Checks that the pointer chunk is not NULL
+                   ~ **chunk: Checks that the data pointed to by chunk is not NULL or zero
+                   # All three conditions must be true for the function to return 1, 
+                   #  indicating that valid data exists. If any condition is false, it returns 
+       notes:
+           # this method ensures memory safety by freeing buffer after usage
+           # it depends on ft_strjoin and ft_strchr from libft (new vserion)
+           # it updates the chunk in place by allocating a new combined string and freeing the old one
+           # reading stops as soon as a newline character is found, optimizing performance
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //! helper functions (utils)  this for bones + madateroy functions that i will use it in the get_next_line function
