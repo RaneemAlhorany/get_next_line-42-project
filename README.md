@@ -958,6 +958,7 @@ get_next_line : to combine all the functions and return the line by line
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 helper functions (utils)  this for bones + madateroy functions that i will use it in the get_next_line function
+
      1- ft_strlen : to get the length of the string 
      2- ft_strchr : to check if the string contain a specific character 
      3- ft_memcpy : to copy from one string to another
