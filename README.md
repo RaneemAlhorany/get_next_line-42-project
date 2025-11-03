@@ -853,11 +853,9 @@ get_next_line : to combine all the functions and return the line by line
                ~ use no star for direct value access.
                ~ use * when you need to access or modify data indirectly via memory address.
                ~ use ** when you need to modify the pointer itself inside a function.
+
    
-
-  ///////////////////////// complete bellow  (04 +  02 header + 05 + 06)//////////////////////////////
-
-4) read_and_store
+5) read_and_store
    
        information:
            this method is part of the get_next_line project
@@ -955,6 +953,10 @@ get_next_line : to combine all the functions and return the line by line
            # it depends on ft_strjoin and ft_strchr from libft (new vserion)
            # it updates the chunk in place by allocating a new combined string and freeing the old one
            # reading stops as soon as a newline character is found, optimizing performance
+
+
+  ///////////////////////// complete bellow  (04 +  02 header + 05 + 06)//////////////////////////////
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
