@@ -955,46 +955,55 @@ get_next_line : to combine all the functions and return the line by line
            # reading stops as soon as a newline character is found, optimizing performance
 
 
-  ///////////////////////// complete bellow  (04 +  02 header + 05 + 06)//////////////////////////////
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//! helper functions (utils)  this for bones + madateroy functions that i will use it in the get_next_line function
-    //~ 1- ft_strlen : to get the length of the string 
-    //~ 2- ft_strchr : to check if the string contain a specific character 
-    //~ 3- ft_memcpy : to copy from one string to another
-    //~ 4- ft_strjoin : to concatenate two strings 
+
+helper functions (utils)  this for bones + madateroy functions that i will use it in the get_next_line function
+     1- ft_strlen : to get the length of the string 
+     2- ft_strchr : to check if the string contain a specific character 
+     3- ft_memcpy : to copy from one string to another
+     4- ft_strjoin : to concatenate two strings 
 
 
-//! 1) strlen
-/*
-    ^ information:
-        % this method is part of string.h library (its new of the libft version that need to use it )
-    ^prototype of the method:
-        $ size_t strlen (const char * s);    
-    ^ description:
-        ~ this method is used to return the length of the string
-        ~ it counts the number of characters in a string until it reaches the null terminator '\0'
-        # if the string is empty it will return 0
-    ^ return: 
-        return the number of the lenght (the type of the return value is size_t (long unsigned int))
-    ^ the new version add the check null in the first line :
-        if (!s)
-            return (0);
-    ^ how to work :
-        * check if the string is null or not , if it null return 0 
+
+ 1) strlen
+
+        information:
+            this method is part of string.h library (its new of the libft version that need to use it )
+    
+        prototype of the method:
+            size_t strlen (const char * s);
+       
+        description:
+            # this method is used to return the length of the string
+            # it counts the number of characters in a string until it reaches the null terminator '\0'
+            # if the string is empty it will return 0
+    
+        return: 
+            return the number of the lenght (the type of the return value is size_t (long unsigned int))
+    
+        the new version add the check null in the first line :
             if (!s)
-                return (0);        
-        * intiilize counter that use to count the length of the string (the type of it : size_t)
-            size_t  len = 0;
-        * then use the loop to move over each char and calculate the number of charcter inside string    
-            while (s[len])
-                len++;
-        * return the counter (that represent the number of the string)
-            return (len);            
-*/
+                return (0);
+    
+        how to work :
+    
+            # check if the string is null or not , if it null return 0 
+                if (!s)
+                    return (0);
+         
+            # intiilize counter that use to count the length of the string (the type of it : size_t)
+                size_t  len = 0;
+    
+            # then use the loop to move over each char and calculate the number of charcter inside string    
+                while (s[len])
+                    len++;
+    
+            # return the counter (that represent the number of the string)
+                return (len);
 
+
+    ///////////////////////// complete bellow  (04 +  02 header + 05 + 06)//////////////////////////////
+  
  //! 2) strchr
 /*
     ^ information:
