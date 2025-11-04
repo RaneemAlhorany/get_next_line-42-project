@@ -1087,6 +1087,8 @@ helper functions (utils)  this for bones + madateroy functions that i will use i
         ! ft_memcpy is faster than ft_memmove in non-overlapping cases.   
 */
 
+
+
 //! 4) ft_strjoin
 /*
     ^ information:
