@@ -1002,42 +1002,55 @@ helper functions (utils)  this for bones + madateroy functions that i will use i
             # return the counter (that represent the number of the string)
                 return (len);
 
-
-    ///////////////////////// complete bellow  (04 +  02 header + 05 + 06)//////////////////////////////
   
- //! 2) strchr
-/*
-    ^ information:
-        % this method is part of string.h library  (its new of the libft version that need to use it )
-    ^prototype of the method:
-        $ char *strchr (const char *s , int c);
-    ^ description:
-        ~ returns a pointer to the first occurrence of the character c int in the string s
-        ~ if the character is not found it return null
-    ^ return: 
-        * return a pointer to matched character (from the character to the end of characters) or null if the character is not found
-    ^ notes and how to solve it : 
-        % check if the string is null or not , if it return (NULL)
-            if (!s) 
-                return (NULL);
-        % need counter with data type ==> size_t
-              $ size_t	index = 0;
-        % loop to check if there is a value inside the string or not 
-              $ while (s[index])
-                # inside the loop check which characters inside string is equaly to c (you should use cast to convert it to char)
-                    ~ if (s[index] == (char) c)
-                # if any character inside the string match the value of the specific character then you should return 
-                #    the pointer of the specific charater in the array and use & to specify the location of the character
-                    ~ return ((char *) &s[index]) or return ((char *) (s + index));
-                # the end of the loop you should increment the counter to check the next character if match or not because the previous one not match
-                    ~ index++;    
-        % after loop add check for null character , because the loop stop when it reach the null character
-              $ if (c == '\0') or  if (s[index] == (char) c)
-                $ return ((char *) &s[index]); or return ((char *) (s + index));
-        % if there is no match you should return null
-             $ return (NULL);
-*/
-   
+ 2) strchr
+    
+        information:
+            this method is part of string.h library  (its new of the libft version that need to use it )
+    
+        prototype of the method:
+            char *strchr (const char *s , int c);
+    
+        description:
+            returns a pointer to the first occurrence of the character c int in the string s
+            if the character is not found it return null
+    
+        return: 
+            return a pointer to matched character (from the character to the end of characters) or null if the character is not found)
+    
+        notes and how to solve it :
+    
+            check if the string is null or not , if it return (NULL)
+                   if (!s) 
+                       return (NULL);
+    
+
+            need counter with data type ==> size_t
+                   size_t	index = 0;
+    
+            loop to check if there is a value inside the string or not 
+                  while (s[index])
+                        # inside the loop check which characters inside string is equaly to c (you should use cast to convert it to char)
+                            ~ if (s[index] == (char) c)
+    
+                        # if any character inside the string match the value of the specific character then you should return 
+                        #    the pointer of the specific charater in the array and use & to specify the location of the character
+                            ~ return ((char *) &s[index]) or return ((char *) (s + index));
+    
+                        # the end of the loop you should increment the counter to check the next character if match or not because the previous one not match
+                            ~ index++;
+     
+            after loop add check for null character , because the loop stop when it reach the null character
+                     if (c == '\0') or  if (s[index] == (char) c)
+                          return ((char *) &s[index]); or return ((char *) (s + index));
+
+    
+            if there is no match you should return null
+                 $ return (NULL);
+    
+     ///////////////////////// complete bellow  (04 +  02 header + 05 + 06)//////////////////////////////
+
+      
 //! 3) memcpy
 /*
     ^ information:
