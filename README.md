@@ -1048,99 +1048,99 @@ helper functions (utils)  this for bones + madateroy functions that i will use i
             if there is no match you should return null
                  $ return (NULL);
     
-     ///////////////////////// complete bellow  (04 +  02 header + 05 + 06)//////////////////////////////
 
       
-//! 3) memcpy
-/*
-    ^ information:
-        % this method is part of the <string.h> library in C (originally called memcpy). (its new of the libft version that need to use it )
-    ^ prototype of the method:
-        $ void *memcpy(void *dest, const void *src, size_t n);
-    ^ description:
-        ~ this function copies n bytes from memory area 'src' to memory area 'dest'.
-        ~ It performs a raw memory copy, byte by byte.
-        ~ Important: memory areas must NOT overlap (use ft_memmove instead if overlapping is possible).
-    ^ parameters:
-        1) void *dest : pointer to the destination memory area where the data will be copied.
-        2) const void *src : pointer to the source memory area from which the data will be copied.
-        3) size_t n : number of bytes to copy.
-    ^ return:
-        ? returns a pointer to the destination memory area (dest).
-    ^ how to implement it:
-        #  check if  one of both 'dest' and 'src' are NULL; if so, return NULL.
-            if (!dest || !src)
-                return (NULL);
-        #  cast pointers to (unsigned char *) to allow byte-by-byte copying:
-              unsigned char *d = dest;
-              const unsigned char *s = src;
-        #  prepare a counter of type size_t (to match the type of n).
-                size_t index = -1;
-        #  use a loop to copy each byte from s to d:
-              while (++index < n)
-                  d[index] = s[index];
-        #  return the pointer to the destination memory area.
-                return dest;
-    ^ notes:
-        ! use ft_memmove if there's a chance that 'src' and 'dest' overlap.
-        ! make sure that both pointers are valid and not NULL before using this function.
-        ! ft_memcpy is faster than ft_memmove in non-overlapping cases.   
-*/
+ 3) memcpy
+
+        information:
+             this method is part of the <string.h> library in C (originally called memcpy). (its new of the libft version that need to use it )
+        prototype of the method:
+             void *memcpy(void *dest, const void *src, size_t n);
+        description:
+            ~ this function copies n bytes from memory area 'src' to memory area 'dest'.
+            ~ It performs a raw memory copy, byte by byte.
+            ~ Important: memory areas must NOT overlap (use ft_memmove instead if overlapping is possible).
+        parameters:
+            1) void *dest : pointer to the destination memory area where the data will be copied.
+            2) const void *src : pointer to the source memory area from which the data will be copied.
+            3) size_t n : number of bytes to copy.
+        return:
+             returns a pointer to the destination memory area (dest).
+        how to implement it:
+            #  check if  one of both 'dest' and 'src' are NULL; if so, return NULL.
+                if (!dest || !src)
+                    return (NULL);
+            #  cast pointers to (unsigned char *) to allow byte-by-byte copying:
+                  unsigned char *d = dest;
+                  const unsigned char *s = src;
+            #  prepare a counter of type size_t (to match the type of n).
+                    size_t index = -1;
+            #  use a loop to copy each byte from s to d:
+                  while (++index < n)
+                      d[index] = s[index];
+            #  return the pointer to the destination memory area.
+                    return dest;
+        notes:
+             use ft_memmove if there's a chance that 'src' and 'dest' overlap.
+             make sure that both pointers are valid and not NULL before using this function.
+             ft_memcpy is faster than ft_memmove in non-overlapping cases.   
 
 
+4) ft_strjoin
 
-//! 4) ft_strjoin
-/*
-    ^ information:
-        % this method is part of string.h library 
-    ^prototype of the method:
-        $ char *ft_strjoin(char const *s1, char const *s2);    
-    ^ description:
-        ~ this method is used to concatenate two strings into a new string
-        ~ it allocates memory for the new string, which is the combined length of both input strings plus one for the null terminator
-    ^ parameters:
-        1) char const *s1 : pointer to the first null-terminated string
-        2) char const *s2 : pointer to the second null-terminated string
-    ^ return: 
-        ? returns a pointer to the newly allocated string containing the concatenated result of s1 and s2
-        ? returns NULL if memory allocation fails
-    ^ how to solve it :
-        ! you must to check if the input strings are not NULL before proceeding with concatenation
-        ! if it is not NULL you can proceed with the concatenation
-        ~ to concatenate the two strings you can follow these steps:
-            # check if the both input string is NULL or not; if so, return NULL
-                 if (!s1 && !s2)
-                        return (NULL);
-            #  calculate the lengths of both input strings using strlen method
-                 size_t len_s1 = strlen(s1);
-                 size_t len_s2 = strlen(s2);
-            #  allocate memory for the new string using malloc
-                ? char *new_str = malloc(len of the first string + len of the second string + 1 (this for \0));
-                % We add +1 to allocate space for the null terminator \0
-                char *strjoin = malloc(len_s1 + len_s2 + 1);
-            #  check if memory allocation was successful
-                 if (!strjoin)     
-                        return NULL;
-                % If malloc fails, it returns NULL, indicating that memory allocation was unsuccessful.
-            !  copy the contents of both input strings into the newly allocated memory
-            #  first copy the contents of s1 into strjoin using ft_memcpy method
-                 ft_memcpy(strjoin, s1, len_s1);
-                % We use memcpy to copy the content from the original string s1 to the newly allocated memory strjoin.  
-            #  second copy the contents of s2 into strjoin using ft_memcpy method
-                 ft_memcpy(strjoin + len_s1, s2, len_s2);
-                % We use memcpy to copy the content from the original string s2 to the newly allocated memory strjoin.
-            #  add the null terminator at the end of new_str
-                ? strjoin[len_s1 + len_s2] = '\0';        
-            #  return the pointer to the newly allocated concatenated string
-                ? return strjoin;
-    ^ notes:
-        ! make sure to include the  "libft.h" library to use strlen function
-        ! make sure to include stdlib.h library to use malloc function
-*/
+        information:
+            this method is part of string.h library 
+        prototype of the method:
+            char *ft_strjoin(char const *s1, char const *s2);    
+        description:
+           ~ this method is used to concatenate two strings into a new string
+           ~ it allocates memory for the new string, which is the combined length of both input strings plus one for the null terminator
+        parameters:
+           1) char const *s1 : pointer to the first null-terminated string
+           2) char const *s2 : pointer to the second null-terminated string
+        return: 
+            returns a pointer to the newly allocated string containing the concatenated result of s1 and s2
+            returns NULL if memory allocation fails
+        how to solve it :
+            you must to check if the input strings are not NULL before proceeding with concatenation
+            if it is not NULL you can proceed with the concatenation
+            to concatenate the two strings you can follow these steps:
+               # check if the both input string is NULL or not; if so, return NULL
+                    if (!s1 && !s2)
+                           return (NULL);
+               #  calculate the lengths of both input strings using strlen method
+                    size_t len_s1 = strlen(s1);
+                    size_t len_s2 = strlen(s2);
+               #  allocate memory for the new string using malloc
+                   ? char *new_str = malloc(len of the first string + len of the second string + 1 (this for \0));
+                   % We add +1 to allocate space for the null terminator \0
+                   char *strjoin = malloc(len_s1 + len_s2 + 1);
+               #  check if memory allocation was successful
+                    if (!strjoin)     
+                           return NULL;
+                    If malloc fails, it returns NULL, indicating that memory allocation was unsuccessful.
+                    otherwize  copy the contents of both input strings into the newly allocated memory
+               #  first copy the contents of s1 into strjoin using ft_memcpy method
+                    ft_memcpy(strjoin, s1, len_s1);
+                    We use memcpy to copy the content from the original string s1 to the newly allocated memory strjoin.  
+               #  second copy the contents of s2 into strjoin using ft_memcpy method
+                    ft_memcpy(strjoin + len_s1, s2, len_s2);
+                    We use memcpy to copy the content from the original string s2 to the newly allocated memory strjoin.
+               #  add the null terminator at the end of new_str
+                   ? strjoin[len_s1 + len_s2] = '\0';        
+               #  return the pointer to the newly allocated concatenated string
+                   ? return strjoin;
+        notes:
+           ! make sure to include stdlib.h library to use malloc function in the header file
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//^ relation diagram (how the methods work together):
-/*
+
+relation diagram (how the methods work together):
+
+
+
         ┌───────────────────────────────┐
         │         get_next_line         │
         └──────────────┬────────────────┘
@@ -1191,35 +1191,237 @@ helper functions (utils)  this for bones + madateroy functions that i will use i
                   ^ output:
                       returns NULL
 
-    ^ simplified logic flow (step-by-step overview):
 
-        1️⃣ read_and_store()
-            ⤷ reads and accumulates file data into chunk until '\n' or EOF.
-        2️⃣ extract_line()
-            ⤷ extracts one line from chunk without altering the rest.
-        3️⃣ update_chunk()
-            ⤷ updates chunk to hold only remaining data (after the line).
-        4️⃣ free_chunk()
-            ⤷ frees chunk when finished or error occurs.
+simplified logic flow (step-by-step overview):
 
-    ^ memory management note:
-        ! each step ensures there are no memory leaks:
+        1️) read_and_store()
+            - reads and accumulates file data into chunk until '\n' or EOF.
+        2️) extract_line()
+            - extracts one line from chunk without altering the rest.
+        3️) update_chunk()
+            - updates chunk to hold only remaining data (after the line).
+        4️) free_chunk()
+            - frees chunk when finished or error occurs.
+
+memory management note:
+
+         each step ensures there are no memory leaks:
             - buffer freed after reading
             - old chunk freed after join/update
             - chunk always set to NULL after freeing
 
-*/
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+header file:
 
    
+header file 
+
+         is a file with a .h extension 
+         that contains declarations of functions, variables, macros, and other constructs 
+         that can be used in a C program
+
+They serve as an interface :
+
+            # providing information about available features without exposing their 
+            # implementation details, which are typically found in corresponding .c source files
+    
+    
+Preprocessing Directive:: 
+        
+            $ #include <filename.h> is used for standard library header files.
+            $ #include "filename.h" is used for user-defined header files, typically found in / for Header files in same directory as source file
 
 
+inside it 
+
+            #ifndef UNIQUE_NAME (The name should be capital case )
+            #define UNIQUE_NAME(The name should be capital case ) 
+            block of code that will call (ex : prototype of the method) 
+            #endif  /* UNIQUE_NAME * / 
 
 
+explain each part:
+
+            1. #ifndef PROJECT_UNIQUE_NAME (if not define)
+                    Means "if the macro PPROJECT_UNIQUE_NAME is not defined yet".
+                    Used as the start of an include guard.
+                    Purpose: Ensure the header file's content is included only if it hasn't been included before, preventing duplication and redefinition errors.
+                    the ex why use it (inside another file that you will call the header file )
+                        #include "PROJECT_UNIQUE_NAME.h"
+                        #include "PROJECT_UNIQUE_NAME.h"
+                    you call it more than 1 so the result will be duplication and redefinition errors so when you use #ifndef will preventing errors 
 
 
+            2.  define UNIQUE_NAME
+                    Defines the macro PROJECT_UNIQUE_NAME the first time the file is included.
+                    Purpose: When the file is included again, the compiler sees the macro is already defined and skips the entire file content.
+                    Works together with #ifndef as a mechanism to prevent multiple inclusion.
 
 
+            3. block of code that will call (ex : prototype of the method) 
+                    This is where you place the actual content of your header file, such as function prototypes, type definitions, constants, and macros.
+                    Purpose: This section contains the declarations and definitions that you want to share across multiple source files.  
+                    It is only included once per compilation unit due to the include guard.
+
+                    
+                    # example:
+                         you can call built-in library:  
+                            ~ #include <stdio.h>  // use for printf
+                            ~ #include <stdlib.h> // dynamic memory management (malloc / free)
+                            ~ #include <stddef.h> // defines data types (size_t)
+                            ~ #include <unistd.h> // system-level file operations (read / close)
+                            ~ #include <fntl.h> //  file manipulation  (open)
+
+                         you can write the prototype of the function (you should end it with ;)
+                         dataType nameFunction (parameter list);
+                             ~ int ft_printf(const char *str, ...);
+
+                        you can  define constants
+                            # ifndef CONSTANT_NAME
+                            # define CONSTANT_NAME value
+                            # endif
+
+                        ? ex:    
+                            # ifndef BUFFER
+                            # define BUFFER 100
+                            # endif
+                        
+                        you can include another header file inside it (user defined header)
+                        its allow you to use all functions (any thing inside the header file)
+                            ! #include "the path of the project/nameHeaderFile.h"
+                            ~ ex:
+                                ~ #include "./Libft/libft.h"
+                  
+            4. endif // add comment and write the name of  PROJECT_UNIQUE_NAME that will close   
+                    Closes the #ifndef condition started earlier.
+                    Purpose: Marks the end of the include guard.
+                    The comment // PROJECT_UNIQUE_NAME is optional to make it clear which condition is being closed.
+
+   
+        call the header file in another files (c files) :
+            #include "nameFile.h"
+            then call any method you want inside the header file 
+
+        then implement it by :    
+                cc -Wall -Wextar -Werror  ft_*.c NameFileHeader.h
+                    
+             
+ 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+implement the main (maditory part )
+
+    int main ()
+    {
+        //! first step open the fd 
+        int open_fd = open ("nameFile.extention" , O_RDONLY);
+        //! call the method and store the value of it inside the variable
+        char *line = get_next_line(open_fd); //# pass to it the file descriptore you need to read it
+        //! use loop to oprint (display) all the value inside the line then free it
+        while (line)
+        {
+            printf("%s", line); //# print the value that stored inside the array of char
+            free(line); //# free the value after print it
+            line = get_next_line(open_fd); //# complete to read the value 
+        }
+        //! finally check if the var of char is null or not (additional part)
+        if (!line)
+            printf("NULL\n");
+    
+        return (0);
+    } 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+how to implement main (bones part)
 
+    int main ()
+    {
+        //! first step open the fd 
+        int open_fd_1 = open ("nameFile.extention" , O_RDONLY); 
+        int open_fd_2 = open ("nameFile.extention" , O_RDONLY); 
+        char *line ; //# pass to it the file descriptore you need to read it
+        //! use loop to oprint (display) all the value inside the line then free it
+        while (1)
+        {
+            line = get_next_line(open_fd_1);
+            if (!line)
+                break ;    
+            printf("file 1 :%s", line); //# print the value that stored inside the array of char
+            free(line); //# free the value after print it
+    
+    
+            line = get_next_line(open_fd_2);
+            if (!line)
+                break ;    
+            printf("file 2 : %s", line); //# print the value that stored inside the array of char
+            free(line); //# free the value after print it
+    
+        }
+        //! finally check if the var of char is null or not (additional part)
+        if (!line)
+            printf("NULL\n");
+        //! close the file after read it    
+        close (open_fd_1);    
+        close (open_fd_2);    
+    
+        return (0);
+    } 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+to change the Buffer size
+
+    cc -W-W-W get_next_line.c get_next_line_utils.c main.c -D BUFFERSIZE = #
+    
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+
+//! to implement it , read  from temminal :
+
+    int main ()
+    {
+        //! call the method  and pur  the value (1)  inside the variable
+        char *line = get_next_line(1); //# pass to it the file descriptore you need to read it
+        //! use loop to oprint (display) all the value inside the line then free it
+        while (line)
+        {
+            printf("%s", line); //# print the value that stored inside the array of char
+            free(line); //# free the value after print it
+            line = get_next_line(1); //# complete to read the value 
+        }
+        //! finally check if the var of char is null or not (additional part)
+        if (!line)
+            printf("NULL\n");
+    
+        return (0);
+    } 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+check for ever mulloc 
+
+     by make the malloc = null then implement it 
+     cc ....
+     valgrind --leak-check=full ./a.out
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+how to test 
+
+     first step check for norm
+     the check for hidden file
+     write the main and use the following line for test
+        # valgrind --leak-check=full ./a.out
+        # valgrind --leak-check=full -show-leak-kinds=all ./a.out
+        this used to  return all the value and summary for every thing
+        ~ tochange the value of buffer 
+            # cc -Wall -Wextra -Werror -g nameFile.c nameFile2.c.... -D BUFFER_SIZE = #
+            -g :mean generate debugging 
+            -D : mean define a macro
+///////////////////////// complete bellow  ( 05 + 06)//////////////////////////////
+
+            
