@@ -1422,6 +1422,5 @@ how to test
             # cc -Wall -Wextra -Werror -g nameFile.c nameFile2.c.... -D BUFFER_SIZE = #
             -g :mean generate debugging 
             -D : mean define a macro
-///////////////////////// complete bellow  ( 05 + 06)//////////////////////////////
 
             
